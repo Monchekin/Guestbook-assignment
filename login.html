@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #loginsidan {
+      background-image: url('bilder/bakgrund-login.jpg');
+     
+      }
+    </style>
+     <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+  </head>
+
+  <body id="loginsidan">
+
+    <form id="loginForm" action="/login" method="post">
+      <h2>Login</h2>
+      <div class="input-field">
+        <p>Användarnamn</p>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Användarnamn"
+        />
+      </div>
+      <div class="input-field">
+        <p>Lösenord</p>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Lösenord"
+        />
+      </div>
+      <input type="submit" value="LogIn" />
+    </form>
+  </body>
+  
+
+  <!-- <form id="loginForm" action="/login" method="post">
+    <p>Användarnamn:</p><input name="username" type="text"/> 
+    <p>Lösenord:</p><input name="password" type="text"/>
+    <br>
+    <input id="buttonIn" type="submit"/>
+  </form>
+   -->
+
+
+</html>

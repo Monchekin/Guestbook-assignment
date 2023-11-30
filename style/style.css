@@ -1,0 +1,124 @@
+body {
+	background-image: url(Bilder/bakgrund-homepage.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+#formDiv {
+	margin-top: 6%;
+}
+
+#rubrik {
+	margin-left: 5%;
+}
+
+.InputForm {
+	margin-bottom: 2%;
+}
+
+#form {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.626);
+	padding: 0.25em;
+	padding-bottom: 2em;
+	padding-top: 2em;
+	border-radius: 1em;
+	border: 0.0625em solid black;
+	width: 30%;
+	margin-left: 3%;
+	text-align: center;
+}
+
+#kommentar {
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	padding-left: 0;
+	box-sizing: border-box;
+	width: 100%;
+	height: 8em;
+}
+
+#button {
+	margin: auto;
+}
+
+#guestListDiv {
+	margin-left: 57%;
+	margin-top: -6.5%;
+}
+
+h1 {
+	display: inline-block;
+	line-height: normal;
+	margin-bottom: 5%;
+	color: white;
+	text-shadow: 0.2em 0.2em 0.4em rgba(0, 0, 0, 0.5);
+}
+
+#guestList {
+	display: block;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 0.625em;
+	border-radius: 10px;
+	width: 60%;
+	border: 0.0625em solid black;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+li {
+	background-color: white;
+	padding: 0.625em;
+	border-radius: 0.3125em;
+	box-shadow: 0.2em 0.2em 0.4em rgba(0, 0, 0, 0.1);
+	margin-bottom: 1.25em;
+}
+
+/* Login-sida */
+#loginForm {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(178, 144, 119, 0.621);
+	padding: 3%;
+	text-align: center;
+}
+
+p {
+	font-size: 20px;
+	margin-bottom: 1%;
+	margin-top: 2%;
+}
+
+input,
+#buttonIn {
+	display: block;
+	margin-bottom: 0.625em;
+	margin: auto;
+}
+
+#buttonIn {
+	display: block;
+	margin: auto;
+	padding: 0.75em 1.5em;
+	background-color: #b97454;
+	color: white;
+	border: none;
+	border-radius: 0.3125em;
+	font-size: 1.2em;
+	transition-duration: 0.3s;
+	cursor: pointer;
+}
+
+#buttonIn:hover {
+	background-color: #784933;
+	color: white;
+}

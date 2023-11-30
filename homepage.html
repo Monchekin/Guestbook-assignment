@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Homepage</title>
+  </head>
+  <body>
+
+    <div id="formDiv">
+        <h3 id="rubrik">Skriv ner dina idéer & förslag och dela med andra</h3>
+
+      <form id="form" action="/newPost" method="post">
+        <label for="timestamp" id="timestamp" name="timestamp"></label>
+    
+        <label for="namn">Namn:</label>
+        <input type="text" class="InputForm" id="namn" name="namn" required />
+
+        <label for="email">Email:</label>
+        <input type="text" class="InputForm" id="email" name="email" required/>
+
+        <label for="nummer">Telefon Nummer:</label>
+        <input type="text" class="InputForm" id="nummer" name="nummer" required/>
+
+        <label for="kommentar">Idéer & förslag:</label>
+        <input textarea ="text" class="InputForm" id="kommentar" name="kommentar" required/>
+        
+        <input id="button" type="submit" />
+      </form>
+    </div>
+
+    <div  id="guestListDiv">
+      <h1>Välkommen ***NAMN***!</h1>
+      <div id="guestList">
+          <h2>Idéer & förslag:</h2>
+          ******
+      </div>
+    </div>
+  </body>
+</html>
