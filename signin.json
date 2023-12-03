@@ -1,5 +1,1 @@
-[
-    {"username": "Lina", "password":"1234"},
-    {"username": "Martin", "password": "hemligt"},
-    {"username": "Bitte", "password": "lila"}
-]
+[{"username":"Lina","password":"1234"},{"username":"Martin","password":"hemligt"},{"username":"Bitte","password":"lila"},{"username":"Viktor","password":"bil"}]

@@ -37,6 +37,25 @@ app.get("/", function (req, res) {
   }
 });
 
+app.get("/register", function (req, res) {
+  res.sendFile(__dirname + "/register.html");
+});
+
+app.post("/register", (req, res) => {
+  const signIn = JSON.parse(fs.readFileSync("signin.json").toString());
+
+  // Lägg till användaren
+  signIn.push({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  // Spara användarna till filen
+  fs.writeFileSync("signin.json", JSON.stringify(signIn));
+
+  res.redirect("/");
+});
+
 app.post("/login", (req, res) => {
   const signIn = JSON.parse(fs.readFileSync("signin.json").toString());
 
@@ -46,10 +65,15 @@ app.post("/login", (req, res) => {
     res.redirect("/homepage");
   } else {
     res.send(`
-    <p>Inloggningen misslyckades!</p>
-    <p><a href='/'>Tillbaka till inloggningssidan</a></p>
-    `);
-  }
+    <link rel="stylesheet" href="style.css">
+    <div id="felmeddelande-wrapper">
+      <div id="felmeddelande">
+        <p>Inloggningen misslyckades!</p>
+        <button><a href='/'>Gå tillbaka till inloggningssidan</a></button>
+      </div>
+    </div>
+  `);
+}
 });
 
 app.get("/homepage", (req, res) => {

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #registersidan {
+        background-image: url('bilder/bakgrund-login.jpg');
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+  <title>Registrering</title>
+</head>
+
+<body id="registersidan">
+
+    <form id="registerForm" action="/register" method="post">
+        <h1>Registrering</h1>
+        <div class="input-field">
+            <label for="username">Användarnamn:</label>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                required
+            >
+        </div>
+
+        <div class="input-field">
+            <label for="password">Lösenord:</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required
+            >
+        </div>
+
+        <button id="regButton" type="submit">Registrera</button>
+        <p>Har du redan ett konto? <a href="/">Logga in här</a></p>
+    </form>
+
+    
+
+</body>
+</html>

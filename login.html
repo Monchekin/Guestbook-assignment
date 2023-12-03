@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #loginsidan {
-      background-image: url('bilder/bakgrund-login.jpg');
-     
+        background-image: url('bilder/bakgrund-login.jpg');
       }
     </style>
-     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <title>Login</title>
   </head>
 
   <body id="loginsidan">
 
     <form id="loginForm" action="/login" method="post">
-      <h2>Login</h2>
+      
+      <h2>Logga in</h2>
       <div class="input-field">
-        <p>Användarnamn</p>
+        <p>Användarnamn:</p>
         <input
           type="text"
           name="username"
@@ -27,7 +28,7 @@
         />
       </div>
       <div class="input-field">
-        <p>Lösenord</p>
+        <p>Lösenord:</p>
         <input
           type="password"
           name="password"
@@ -35,18 +36,9 @@
           placeholder="Lösenord"
         />
       </div>
-      <input type="submit" value="LogIn" />
+      <input id="buttonIn" type="submit" value="Logga in" />
+      <p>Har du inget inlog? <a href="/register">Registrera här</a></p>
+
     </form>
   </body>
-  
-
-  <!-- <form id="loginForm" action="/login" method="post">
-    <p>Användarnamn:</p><input name="username" type="text"/> 
-    <p>Lösenord:</p><input name="password" type="text"/>
-    <br>
-    <input id="buttonIn" type="submit"/>
-  </form>
-   -->
-
-
 </html>

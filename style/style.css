@@ -43,6 +43,26 @@ body {
 
 #button {
 	margin: auto;
+	padding: 10px 20px;
+	background-color: #4caf50; /* Grön färg */
+	color: white;
+	border: none;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.3s;
+}
+
+#button:hover {
+	background-color: #45a049; /* Mörkare grön färg vid hover */
+	transform: scale(1.1); /* Skalningseffekt vid hover */
+}
+
+#button:active {
+	background-color: #3e8743; /* Ännu mörkare grön färg vid klick */
 }
 
 #guestListDiv {
@@ -80,7 +100,8 @@ li {
 	margin-bottom: 1.25em;
 }
 
-/* Login-sida */
+/* Login-sida + register sidan */
+#registerForm,
 #loginForm {
 	position: absolute;
 	top: 50%;
@@ -92,23 +113,35 @@ li {
 	text-align: center;
 }
 
-p {
+p, label {
 	font-size: 20px;
 	margin-bottom: 1%;
 	margin-top: 2%;
 }
 
+#username,
+#password {
+	width: 200px;
+	height: 25px;
+}
+
+input::placeholder {
+	font-size: 16px;
+}
+
 input,
-#buttonIn {
+#buttonIn,
+#regButton {
 	display: block;
 	margin-bottom: 0.625em;
 	margin: auto;
 }
 
-#buttonIn {
+#buttonIn, #regButton {
 	display: block;
 	margin: auto;
-	padding: 0.75em 1.5em;
+	margin-top: 5%;
+	padding: 0.5em 1em;
 	background-color: #b97454;
 	color: white;
 	border: none;
@@ -118,7 +151,37 @@ input,
 	cursor: pointer;
 }
 
-#buttonIn:hover {
+#buttonIn:hover, #regButton:hover {
 	background-color: #784933;
 	color: white;
 }
+
+/* felmeddelande sidan */
+#felmeddelande-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+}
+
+#felmeddelande {
+	text-align: center;
+	padding: 20px;
+	background-color: #ffcccc;
+	border: 1px solid #ff6666;
+	border-radius: 5px;
+	width: 50%;
+}
+
+#felmeddelande p {
+	font-size: 18px;
+	color: #ff0000;
+}
+
+#felmeddelande a {
+	font-size: 16px;
+	color: #0066cc;
+	text-decoration: none;
+}
+
+
