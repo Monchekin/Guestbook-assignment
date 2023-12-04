@@ -6,16 +6,19 @@ body {
 	background-attachment: fixed;
 }
 
+/* Första diven (formDiv) */
 #formDiv {
-	margin-top: 6%;
+	margin-top: 4%;
+}
+
+h1 {
+	margin-left: 8%;
+	color: white;
+	text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.5);
 }
 
 #rubrik {
 	margin-left: 5%;
-}
-
-.InputForm {
-	margin-bottom: 2%;
 }
 
 #form {
@@ -27,8 +30,12 @@ body {
 	border-radius: 1em;
 	border: 0.0625em solid black;
 	width: 30%;
-	margin-left: 3%;
+	margin-left: 2%;
 	text-align: center;
+}
+
+.InputForm {
+	margin-bottom: 2%;
 }
 
 #kommentar {
@@ -43,47 +50,49 @@ body {
 
 #button {
 	margin: auto;
+	margin-top: 2%;
 	padding: 10px 20px;
-	background-color: #4caf50; /* Grön färg */
+	background-color: #97a0b0; /* Grön färg */
 	color: white;
 	border: none;
 	border-radius: 5px;
+	border: 2px solid black;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
-	cursor: pointer;
 	transition: background-color 0.3s, transform 0.3s;
 }
 
 #button:hover {
-	background-color: #45a049; /* Mörkare grön färg vid hover */
-	transform: scale(1.1); /* Skalningseffekt vid hover */
+	background-color:#97a0b0; 
+	transform: scale(1.1); 
 }
 
 #button:active {
-	background-color: #3e8743; /* Ännu mörkare grön färg vid klick */
+	background-color:#090909; /
 }
 
-#guestListDiv {
-	margin-left: 57%;
-	margin-top: -6.5%;
-}
-
-h1 {
-	display: inline-block;
-	line-height: normal;
-	margin-bottom: 5%;
-	color: white;
-	text-shadow: 0.2em 0.2em 0.4em rgba(0, 0, 0, 0.5);
-}
-
-#guestList {
-	display: block;
+/* Andra diven (topicDiv) */
+#topicDiv {
+	/* display: block; */
+	position: absolute;
 	background-color: rgba(255, 255, 255, 0.8);
 	padding: 0.625em;
 	border-radius: 10px;
-	width: 60%;
+	width: 25%;
+	border: 0.0625em solid black;
+	margin-left: 36%;
+}
+
+#guestList {
+	/* display: block; */
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 0.625em;
+	border-radius: 10px;
+	width: 30%;
+	margin-left: 66%;
 	border: 0.0625em solid black;
 }
 
@@ -113,7 +122,8 @@ li {
 	text-align: center;
 }
 
-p, label {
+p,
+label {
 	font-size: 20px;
 	margin-bottom: 1%;
 	margin-top: 2%;
@@ -137,7 +147,8 @@ input,
 	margin: auto;
 }
 
-#buttonIn, #regButton {
+#buttonIn,
+#regButton {
 	display: block;
 	margin: auto;
 	margin-top: 5%;
@@ -151,7 +162,8 @@ input,
 	cursor: pointer;
 }
 
-#buttonIn:hover, #regButton:hover {
+#buttonIn:hover,
+#regButton:hover {
 	background-color: #784933;
 	color: white;
 }
@@ -183,5 +195,3 @@ input,
 	color: #0066cc;
 	text-decoration: none;
 }
-
-

@@ -19,22 +19,12 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static('headlines'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("style"));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-app.get("/", function (req, res) {
-  const session = req.session;
-  if (session && session.username) {
-    res.send(`
-      <p>Välkommen ${session.username}!</p>
-    `);
-  } else {
-    res.sendFile(__dirname + "/login.html");
-  }
 });
 
 app.get("/register", function (req, res) {
@@ -76,6 +66,36 @@ app.post("/login", (req, res) => {
 }
 });
 
+let loginSuccess = function (signIn, username, password) {
+  for (let user of signIn) {
+    if (user.username === username && user.password === password) {
+      return true;
+    }
+  }
+  return false;
+};
+
+app.get("/", function (req, res) {
+  const session = req.session;
+  if (session && session.username) {
+    res.send(`
+      <p>Välkommen ${session.username}!</p>
+    `);
+  } else {
+    res.sendFile(__dirname + "/login.html");
+  }
+
+  if (session && session.username) {
+    const threadsHTML = fs.readFileSync("homepage.html", "utf8");
+
+    const finalHTML = topicHTML.replace('***TRÅDAR***', JSON.stringify(topic));
+
+    res.send(finalHTML);
+  } else {
+    res.sendFile(__dirname + "/login.html");
+  }
+});
+
 app.get("/homepage", (req, res) => {
   let posts = JSON.parse(fs.readFileSync("output.json").toString());
   posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -84,10 +104,13 @@ app.get("/homepage", (req, res) => {
   res.send(html);
 });
 
+const topic = JSON.parse(fs.readFileSync("headlines.json").toString());
+
+
 app.post("/newPost", (req, res) => {
   let newPost = req.body;
 
-  if (!newPost || !newPost.namn || !newPost.email || !newPost.nummer || !newPost.kommentar) {
+  if (!newPost || !newPost.namn || !newPost.email || !newPost.nummer || !newPost.rubrik || !newPost.kommentar) {
     res.write('<h>Alla fält måste vara ifyllda!</h1>');
     res.send();
     return;
@@ -100,15 +123,6 @@ app.post("/newPost", (req, res) => {
   res.redirect("/homepage");
 });
 
-let loginSuccess = function (signIn, username, password) {
-  for (let user of signIn) {
-    if (user.username === username && user.password === password) {
-      return true;
-    }
-  }
-  return false;
-};
-
 let generatePostHTML = function (posts, username) {
   let output = posts
     .map(
@@ -118,10 +132,12 @@ let generatePostHTML = function (posts, username) {
       Namn: ${post.namn}<br>
       Email: ${post.email}<br>
       Nummer: ${post.nummer}<br><br>
-      Idéer & förslag: <br> ${post.kommentar}</li>`
+      <b>${post.rubrik}</b><br>
+      ${post.kommentar}</li>`
     )
     .join("");
 
   let html = fs.readFileSync("homepage.html", "utf8");
   return html.replace("******", `<ul>${output}</ul>`).replace("***NAMN***", username || "");
 };
+
