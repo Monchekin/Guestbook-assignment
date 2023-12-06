@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Posts</title>
+</head>
+<body>
+
+    <h1>Tråd: ***TRÅDNAMN***!</h1>
+    <p>Inlägg: ***TRÅDINLÄGG***</p>
+    <h3 id="rubrik">Skriv en kommentar</h3>
+
+    <form id="form" action="/newPost" method="post">
+      <label for="id" id="idTag" name="id"></label>
+      <label for="timestamp" id="timestamp" name="timestamp"></label>
+  
+      <label for="namn">Namn:</label>
+      <input type="text" class="InputForm" id="namn" name="namn"/>
+
+      <label for="rubrik">Rubrik:</label>
+      <input type="text" class="InputForm"  name="rubrik"/>
+
+      <label for="kommentar">Idéer & förslag:</label>
+      <input textarea ="text" class="InputForm" id="kommentar" name="kommentar"/>
+      
+      <input id="button" type="submit" />
+    </form>
+  </div>
+    
+  <div id="guestListDiv">
+    <div id="guestList">
+        <h2>Idéer & förslag:</h2>
+        ***INLÄGG***
+    </div>
+</div>
+
+</body>
+</html>

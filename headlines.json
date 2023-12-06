@@ -1,3 +1,10 @@
 [
-  { "id": 1, "headline": "Rubrik 1", "content": "Innehåll för Rubrik 1", "username": ""}
+  {
+    "id": 1,
+    "title": "Första tråden"
+  },
+  {
+    "id": 2,
+    "title": "Första tråden"
+  }
 ]
