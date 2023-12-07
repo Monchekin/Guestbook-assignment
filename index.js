@@ -34,6 +34,7 @@ const readHTMLFile = function (filename) {
 
 const posts = JSON.parse(fs.readFileSync("posts.json", "utf8"));
 
+// Hämtar från html-filer 
 app.get("/register", (req, res) => {
   res.sendFile(__dirname + "/register.html");
 });
@@ -48,19 +49,29 @@ app.get("/newPost", (req, res) => {
 
 
 // Funktioner
-const generatePostHTML = function (posts, username) {
+const generateTopicPostHTML = function(posts){
+  console.log(posts);
   const output = posts.map(post => `
-    <li>
-      ${new Date(post.timestamp).toLocaleString()} 
-      ID: ${post.id}<br><br>
-      Namn: ${post.namn}<br>
-      <b>${post.rubrik}</b><br>
-      ${post.kommentar}
-    </li>`
+    <ul>
+      <li>
+        ${new Date(post.timestamp).toLocaleString()} <br>
+        Namn: ${post.namn}<br><br>
+        ${post.kommentar}
+      </li>
+    </ul>`
   ).join("");
+ 
 
-  const html = readHTMLFile("homepage.html");
-  return html.replace("******", `<ul>${output}</ul>`).replace("***NAMN***", username || "");
+  return output;
+}
+
+
+const generatePostHTML = function (username) {
+
+  let html = readHTMLFile("homepage.html");
+
+  html = html.replace("***NAMN***", username);
+  return html;
 };
 
 const getThreadListHTML = function (threads) {
@@ -69,7 +80,7 @@ const getThreadListHTML = function (threads) {
 };
 
 const generatePostContent = function (topicId) {
-  const posts = []; // Replace this with your actual posts
+  const posts = []; 
   return posts.map(post => `<p>${post}</p>`).join("");
 };
 
@@ -103,7 +114,7 @@ app.post("/login", (req, res) => {
           <p>Inloggningen misslyckades!</p>
           <button><a href='/'>Gå tillbaka till inloggningssidan</a></button>
         </div>
-      </div>
+      </div> 
     `);
   }
 });
@@ -131,14 +142,12 @@ app.get("/", (req, res) => {
 app.get("/homepage", (req, res) => {
   let posts = JSON.parse(fs.readFileSync("headlines.json").toString());
 
-  const htmlContent = generatePostHTML(posts, req.session ? req.session.username : null);
+  let htmlContent = generatePostHTML(req.session ? req.session.username : null);
 
   const initialThreadListHTML = getThreadListHTML(topics);
 
-  let homepageHTML = fs.readFileSync("homepage.html", "utf8");
-
-  homepageHTML = homepageHTML.replace("<!-- Thread list will be dynamically inserted here -->", initialThreadListHTML);
-  res.send(homepageHTML);
+  htmlContent = htmlContent.replace("<!-- Thread list will be dynamically inserted here -->", initialThreadListHTML);
+  res.send(htmlContent);
 });
 
 app.get("/createTopic", (req, res) => {
@@ -161,26 +170,6 @@ app.post("/createTopic", (req, res) => {
   res.send(html);
 });
 
-app.get("/topic/:id", function (req, res) {
-  const htmlTemplate = fs.readFileSync("post.html", "utf8");
-  const topics = JSON.parse(fs.readFileSync("headlines.json", "utf8"));
-  const currentTopic = topics.find((topic) => topic.id == req.params.id);
-
-  if (currentTopic) {
-    const topicTitle = currentTopic.title;
-    req.session.topicTitle = topicTitle;
-    const postContent = generatePostContent(req.params.id);
-    req.session.postContent = postContent;
-    const html = htmlTemplate
-      .replace("***NAMN***", req.session.topicTitle)
-      .replace("***TRÅDINLÄGG***", generatePostContent(req.params.id))
-      .replace("***INLÄGG***", req.session.postContent);
-    res.send(html);
-  } else {
-    res.send("Trådämnet hittades inte.");
-  }
-});
-
 const topics = JSON.parse(fs.readFileSync("headlines.json", "utf8"));
 
 const addNewThread = (topicTitle, postContent) => {
@@ -197,28 +186,76 @@ const addNewThread = (topicTitle, postContent) => {
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2), "utf8");
 };
 
+app.get("/topic/:id", function (req, res) {
+ 
+  const htmlTemplate = fs.readFileSync("post.html", "utf8");
 
+  const topics = JSON.parse(fs.readFileSync("headlines.json", "utf8"));
+  const currentTopic = topics.find((topic) => topic.id == req.params.id);
+
+  let posts = JSON.parse(fs.readFileSync("posts.json", "utf8"));
+  let firstPost = posts.find((posts) => posts.id == Number(req.params.id));
+
+  if (currentTopic) {
+    const topicTitle = currentTopic.title;
+    req.session.topicTitle = topicTitle;
+
+    let postContent = posts.content;
+    req.session.postContent = postContent;
+    postContent = generatePostContent(req.params.id);
+    req.session.postContent = postContent;
+    
+    let inlagg = JSON.parse(fs.readFileSync("output.json", "utf8"));
+
+    let isMyId = (inl) => {
+      console.log(inl.idTopic == req.params.id);
+      return inl.idTopic == req.params.id;
+    };
+    let allaInlagg = inlagg.filter(isMyId);
+
+    console.log(allaInlagg);
+
+
+    let html = htmlTemplate
+      .replace("***TRÅDNAMN***", currentTopic.title)
+
+      .replace("***TRÅDINLÄGG***", firstPost.content)
+
+      .replace("***INLÄGG***", generateTopicPostHTML (req.session ? allaInlagg : null))
+
+      .replace("***TOPICID***", req.params.id);
+
+      res.send(html);
+  } else {
+    res.send("Trådämnet hittades inte.");
+  }
+});
 
 app.post("/newPost", (req, res) => {
+  
   let newPost = req.body;
-
-  if (!newPost || !newPost.namn || !newPost.rubrik || !newPost.kommentar) {
+ 
+  if (!newPost || !newPost.namn || !newPost.kommentar) {
     res.write('<h>Alla fält måste vara ifyllda!</h1>');
     res.send();
     return;
   }
 
+  generatePostHTML(posts, req.session ? req.session.username : null);
   let existingPosts = JSON.parse(fs.readFileSync("output.json").toString());
   let isDuplicate = existingPosts.some(post => post.namn === newPost.namn && post.kommentar === newPost.kommentar);
 
   if (!isDuplicate) {
     existingPosts.push({ ...newPost, timestamp: new Date() });
+
     fs.writeFileSync("output.json", JSON.stringify(existingPosts, null, 2));
+
     req.session.postContent = generatePostContent(newPost.topicId);
-    res.redirect("/post");
+    
+    res.redirect(`/topic/${newPost.idTopic}`);
   } else {
     res.write('<h>Duplicerat inlägg! </h1>');
     res.send();
   }
-  res.redirect(`/topic/${newPost.topicId}`);
+  
 });
