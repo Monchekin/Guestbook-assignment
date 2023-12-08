@@ -8,9 +8,9 @@
 </head>
 <body>
 
-    <h1 id="h1">Tråd: ***TRÅDNAMN***!</h1>
-    <p id="inlägg">Inlägg: ***TRÅDINLÄGG***</p>
-    <h3 id="rubrik">Skriv en kommentar</h3>
+
+    <h1 id="h1"><u>Rubrik: ***TRÅDNAMN***!</u></h1>
+    <p id="inlägg"><b>Inlägg:</b> ***TRÅDINLÄGG***</p>
 
     <form id="form" action="/newPost" method="post">
       <label for="id" id="idTag" name="id"></label>
@@ -21,10 +21,14 @@
       <label for="namn">Namn:</label>
       <input type="text" class="InputForm" id="namn" name="namn"/>
 
-      <label for="kommentar">Idéer & förslag:</label>
-      <input textarea ="text" class="InputForm" id="kommentar" name="kommentar"/>
+      <label for="kommentar">Din kommentar:</label>
+
+      <textarea class="InputForm" id="kommentar" name="kommentar"></textarea>
       
-      <input id="button" type="submit" />
+      <input id="button" type="submit"/><br>
+
+      <button id="buttonTråd"><a href="http://localhost:8080/homepage">Skapa en ny tråd</a></button>
+
     </form>
   </div>
     

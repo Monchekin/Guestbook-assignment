@@ -11,10 +11,10 @@ body {
 	margin-top: 4%;
 }
 
-h1 {
+#h1first {
 	color: white;
 	text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.5);
-	margin-left: 55%;
+	margin-left: 56%;
 }
 
 #skapaTråd{
@@ -75,8 +75,9 @@ h1 {
 	margin-left: 3%;
 }
 
-#rubrik {
-	margin-left: 3%;
+#h1{
+	color: #090909;
+	margin-top: 5%;
 }
 
 #form {
@@ -128,6 +129,34 @@ li {
 	margin-bottom: 1.25em;
 	list-style-type: none;
 }
+
+#buttonTråd {
+	margin: auto;
+	margin-top: 2%;
+	padding: 10px 20px;
+	background-color: #97a0b0;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	border: 2px solid black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	transition: background-color 0.3s, transform 0.3s;
+  }
+
+  /* Stil för knappens länk */
+  #buttonTråd a {
+	color: white;
+	text-decoration: none;
+  }
+
+  /* Hover-effekt för knappen */
+  #buttonTråd:hover {
+	background-color: #5b6379;
+	transform: scale(1.05);
+  }
 
 /* Login-sida + register sidan */
 #registerForm,

@@ -7,10 +7,8 @@
     <title>Homepage</title>
   </head>
   <body>
-
     <div id="formDiv">
-
-      <h1>Välkommen ***NAMN***!</h1>
+      <h1 id="h1first">Välkommen ***NAMN***!</h1>
       <h2 id="skapaTråd">Skapa Ny Tråd</h2>
 
       <form id="form1" action="/createTopic" method="POST">
@@ -23,13 +21,11 @@
           <button id="button" type="submit">Skapa Tråd</button>
       </form>
 
-
       <div id="topicDiv">
         <h2>Trådar</h2>
         <div id="threadListPlaceholder">
           <!-- Thread list will be dynamically inserted here -->
         </div>
       </div>
-
    </body>
 </html>

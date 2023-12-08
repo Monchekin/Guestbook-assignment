@@ -23,7 +23,6 @@ app.use(express.static('headlines'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('style'));
 
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
@@ -34,23 +33,23 @@ const readHTMLFile = function (filename) {
 
 const posts = JSON.parse(fs.readFileSync("posts.json", "utf8"));
 
-// Hämtar från html-filer 
+// Hämta registreringssidan
 app.get("/register", (req, res) => {
   res.sendFile(__dirname + "/register.html");
 });
 
+// Hämta skapandet av trådar
 app.get("/createTopic", (req, res) => {
   res.sendFile(__dirname + "/homepage.html");
 });
 
+// Hämta sidan för nya inlägg
 app.get("/newPost", (req, res) => {
   res.sendFile(__dirname + "/post.html");
 });
 
-
-// Funktioner
+// Funktion för att generera HTML för inlägg i en tråd
 const generateTopicPostHTML = function(posts){
-  console.log(posts);
   const output = posts.map(post => `
     <ul>
       <li>
@@ -60,32 +59,30 @@ const generateTopicPostHTML = function(posts){
       </li>
     </ul>`
   ).join("");
- 
 
   return output;
 }
 
-
+// Funktion för att generera HTML för en användarpost på startsidan
 const generatePostHTML = function (username) {
-
   let html = readHTMLFile("homepage.html");
-
   html = html.replace("***NAMN***", username);
   return html;
 };
 
+// Funktion för att generera HTML för listan med trådar
 const getThreadListHTML = function (threads) {
   const listItems = threads.map(thread => `<li><a href="/topic/${thread.id}">${thread.title}</a></li>`).join("");
   return `<ul>${listItems}</ul>`;
 };
 
+// Funktion för att generera HTML för innehållet i en tråd
 const generatePostContent = function (topicId) {
   const posts = []; 
   return posts.map(post => `<p>${post}</p>`).join("");
 };
 
-
-
+// Registrera en ny användare
 app.post("/register", (req, res) => {
   const signIn = JSON.parse(fs.readFileSync("signin.json").toString());
 
@@ -95,10 +92,10 @@ app.post("/register", (req, res) => {
   });
 
   fs.writeFileSync("signin.json", JSON.stringify(signIn, null, 2));
-
   res.redirect("/");
 });
 
+// Logga in
 app.post("/login", (req, res) => {
   const signIn = JSON.parse(fs.readFileSync("signin.json").toString());
 
@@ -119,6 +116,7 @@ app.post("/login", (req, res) => {
   }
 });
 
+// Kontrollera om inloggningen lyckades
 const loginSuccess = function (signIn, username, password) {
   for (let user of signIn) {
     if (user.username === username && user.password === password) {
@@ -128,6 +126,7 @@ const loginSuccess = function (signIn, username, password) {
   return false;
 };
 
+// Startsidan
 app.get("/", (req, res) => {
   const session = req.session;
   if (session && session.username) {
@@ -139,39 +138,38 @@ app.get("/", (req, res) => {
   }
 });
 
+// Startsidan för inloggade användare
 app.get("/homepage", (req, res) => {
   let posts = JSON.parse(fs.readFileSync("headlines.json").toString());
-
   let htmlContent = generatePostHTML(req.session ? req.session.username : null);
-
   const initialThreadListHTML = getThreadListHTML(topics);
 
   htmlContent = htmlContent.replace("<!-- Thread list will be dynamically inserted here -->", initialThreadListHTML);
   res.send(htmlContent);
 });
 
+// Skapa en ny tråd
 app.get("/createTopic", (req, res) => {
   const formHtml = fs.readFileSync("homepage.html", "utf8");
   res.send(formHtml);
 });
 
+// Skapa en ny tråd (POST-metod)
 app.post("/createTopic", (req, res) => {
   const topicTitle = req.body.topicTitle;
   const postContent = req.body.postContent;
 
   addNewThread(topicTitle, postContent);
-
   const updatedThreadListHTML = getThreadListHTML(topics);
+  let html = generatePostHTML(req.session ? req.session.username : null);
 
-  let html = fs.readFileSync("homepage.html", "utf8");
-  
   html = html.replace("<!-- Thread list will be dynamically inserted here -->", updatedThreadListHTML);
-  
   res.send(html);
 });
 
 const topics = JSON.parse(fs.readFileSync("headlines.json", "utf8"));
 
+// Lägga till en ny tråd
 const addNewThread = (topicTitle, postContent) => {
   const newTopicId = topics.length + 1;
   const newPostId = posts.length + 1;
@@ -186,22 +184,20 @@ const addNewThread = (topicTitle, postContent) => {
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2), "utf8");
 };
 
+// Visa en tråd
 app.get("/topic/:id", function (req, res) {
- 
   const htmlTemplate = fs.readFileSync("post.html", "utf8");
 
   const topics = JSON.parse(fs.readFileSync("headlines.json", "utf8"));
   const currentTopic = topics.find((topic) => topic.id == req.params.id);
 
   let posts = JSON.parse(fs.readFileSync("posts.json", "utf8"));
-  let firstPost = posts.find((posts) => posts.id == Number(req.params.id));
+  let firstPost = posts.find((post) => post.topicId == Number(req.params.id));
 
   if (currentTopic) {
     const topicTitle = currentTopic.title;
     req.session.topicTitle = topicTitle;
-
     let postContent = posts.content;
-    req.session.postContent = postContent;
     postContent = generatePostContent(req.params.id);
     req.session.postContent = postContent;
     
@@ -213,31 +209,23 @@ app.get("/topic/:id", function (req, res) {
     };
     let allaInlagg = inlagg.filter(isMyId);
 
-    console.log(allaInlagg);
-
-
     let html = htmlTemplate
       .replace("***TRÅDNAMN***", currentTopic.title)
-
       .replace("***TRÅDINLÄGG***", firstPost.content)
-
       .replace("***INLÄGG***", generateTopicPostHTML (req.session ? allaInlagg : null))
-
       .replace("***TOPICID***", req.params.id);
-
       res.send(html);
   } else {
-    res.send("Trådämnet hittades inte.");
+    res.send("<h1>Trådämnet hittades inte.</h1>");
   }
 });
 
+// Skapa ett nytt inlägg i en tråd
 app.post("/newPost", (req, res) => {
-  
   let newPost = req.body;
  
   if (!newPost || !newPost.namn || !newPost.kommentar) {
-    res.write('<h>Alla fält måste vara ifyllda!</h1>');
-    res.send();
+    res.send('<h1>Alla fält måste vara ifyllda! </h1>');
     return;
   }
 
@@ -254,8 +242,6 @@ app.post("/newPost", (req, res) => {
     
     res.redirect(`/topic/${newPost.idTopic}`);
   } else {
-    res.write('<h>Duplicerat inlägg! </h1>');
-    res.send();
+    res.send('<h>Duplicerat inlägg! </h1>');
   }
-  
 });
